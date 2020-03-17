@@ -1,26 +1,81 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React,{Component} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import Person from './Person/Person'
+
+
+class App extends Component {
+  
+  state = {
+    
+    persons: [
+      { name: "Sonu", age: 25 },
+      { name: "Anuj", age: 30 },
+      { name: "Ashu", age: 27 }
+    ],
+    showPerson : false
+  }
+  switchHandler=(newName)=> {
+    
+    this.setState({
+      persons: [
+        { name: newName, age: 25 },
+        { name: "Kala", age: 39 },
+        { name: "Prabhakar", age: 48 }
+      ] })
+    
+  }
+
+  nameChanged = (event) => {
+    
+    this.setState({
+      persons: [
+        { name: "Max", age: 25 },
+        { name: event.target.value, age: 39 },
+        { name: "Prabhakar", age: 48 }
+      ]
+    })
+  }
+
+  deleteClickedPerson = (pIndex) => {
+    // const persons = this.state.persons.slice();
+    const persons = [...this.state.persons]
+    persons.splice(pIndex, 1);
+    this.setState({ persons:persons})
+
+  }
+
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPerson;
+    this.setState({showPerson:!doesShow})
+}
+
+  render() {
+
+    let persons = null;
+    if (this.state.showPerson) {
+      persons = (
+        < div >
+          {this.state.persons.map((person,index)=>{
+          
+            return <Person
+                click ={()=>this.deleteClickedPerson(index)}
+            name={person.name}
+            age = {person.age}
+          />
+      })}
+      </div>
+      );
+    }
+    ////In JSX format should be with in enclosed brackets
+    return (
+      <div>
+        <button onClick={this.togglePersonHandler}>Switch Name</button>
+        {persons}  
+       
+      </div>
+    );
+  }
 }
 
 export default App;
