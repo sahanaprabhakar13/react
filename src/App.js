@@ -62,7 +62,7 @@ class App extends Component {
                 click ={()=>this.deleteClickedPerson(index)}
             name={person.name}
               age={person.age}
-              key={person.id}
+              key={person.id }
           />
       })}
       </div>
